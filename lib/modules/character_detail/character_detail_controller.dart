@@ -20,6 +20,10 @@ class CharacterDetailController extends GetxController with MessagesMixin {
   int get offset => _offset.value;
   set offset(int newValue) => _offset(newValue);
 
+  final _totalLista = 0.obs;
+  int get totalLista => _totalLista.value;
+  set totalLista(int newValue) => _totalLista(newValue);
+
   final _canCall = false.obs;
   bool get canCall => _canCall.value;
   set canCall(bool newValue) => _canCall(newValue);
@@ -49,6 +53,7 @@ class CharacterDetailController extends GetxController with MessagesMixin {
     late RequestComicsCharacterId? comicId;
     try {
       comicId = await comicsIdRespository.getComicsId(character.id, offset);
+
       if (comicId?.comics != null) {
         comicsId.addAll(comicId!.comics!);
       }
