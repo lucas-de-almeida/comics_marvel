@@ -14,7 +14,7 @@ class CharacterDetailGroupComics extends GetView<CharacterDetailController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      return Flexible(
+      return Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -25,9 +25,11 @@ class CharacterDetailGroupComics extends GetView<CharacterDetailController> {
                 itemCount: controller.comicsId.length,
                 itemBuilder: (_, index) {
                   if (controller.comicsId.isNotEmpty) {
-                    if (index > (controller.comicsId.length * 0.7).toInt() &&
-                        controller.canCall == false) {
-                      controller.moreData();
+                    if (controller.comicsId.length <= controller.totalLista) {
+                      if (index > (controller.comicsId.length * 0.7).toInt() &&
+                          controller.canCall == false) {
+                        controller.moreData();
+                      }
                     }
                   }
                   ComicsCharacterId _comicId = controller.comicsId[index];
