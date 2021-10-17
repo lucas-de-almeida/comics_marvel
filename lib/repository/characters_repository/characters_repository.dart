@@ -31,7 +31,8 @@ class CharactersRepository {
       }
 
       return null;
-    }).timeout(const Duration(seconds: 10));
+      //AUMENTADO TEMPO LIMITE DE TIME-OUT DEVIDO A PROBLEMAS NA API
+    }).timeout(const Duration(seconds: 60));
 
     //if (result.body['code'] == 'RequestThrottled') {
     if (result.hasError) {
