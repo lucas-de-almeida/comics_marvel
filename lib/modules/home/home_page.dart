@@ -12,7 +12,7 @@ class HomePage extends GetView<HomePageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () => controller.controllerCharacter.moreData(),
+        onPressed: () => controller.controllerCharacter.getPersonagem(),
         child: const Icon(Icons.replay_outlined),
       ),
       bottomNavigationBar: Obx(() {
