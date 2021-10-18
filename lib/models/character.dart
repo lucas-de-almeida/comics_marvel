@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'comics.dart';
 import 'thumbnail.dart';
 
 class Character {
@@ -10,7 +9,7 @@ class Character {
   String modified;
   Thumbnail thumbnail;
   String resourceURI;
-  Comics comics;
+
   bool? clicked = false;
   Character({
     required this.id,
@@ -19,7 +18,6 @@ class Character {
     required this.modified,
     required this.thumbnail,
     required this.resourceURI,
-    required this.comics,
     this.clicked,
   });
 
@@ -31,7 +29,6 @@ class Character {
       'modified': modified,
       'thumbnail': thumbnail.toMap(),
       'resourceURI': resourceURI,
-      'comics': comics.toMap(),
       'clicked': clicked,
     };
   }
@@ -44,7 +41,6 @@ class Character {
       modified: map['modified'],
       thumbnail: Thumbnail.fromMap(map['thumbnail']),
       resourceURI: map['resourceURI'],
-      comics: Comics.fromMap(map['comics']),
     );
   }
 
