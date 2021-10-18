@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CharactersGroup extends GetView<CharactersPageController> {
-  final String title = 'Characters';
   final List<Character> characters;
   const CharactersGroup({
     Key? key,
@@ -14,8 +13,8 @@ class CharactersGroup extends GetView<CharactersPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Flexible(
+    return controller.obx(
+      (value) => Flexible(
         child: ListView.builder(
           itemCount: controller.characters.length,
           itemBuilder: (_, index) {
@@ -43,7 +42,17 @@ class CharactersGroup extends GetView<CharactersPageController> {
             );
           },
         ),
-      );
-    });
+      ),
+      onError: (error) => Expanded(
+        child: Center(
+          child: Text('$error'),
+        ),
+      ),
+      onEmpty: const Expanded(
+        child: Center(
+          child: Text('Sem informações para mostrar'),
+        ),
+      ),
+    );
   }
 }

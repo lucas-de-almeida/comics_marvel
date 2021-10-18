@@ -1,6 +1,7 @@
 import 'package:comics_marvel/aplication/ui/messages/messages_mixin.dart';
 import 'package:comics_marvel/models/character.dart';
 import 'package:comics_marvel/models/request_character.dart';
+import 'package:comics_marvel/modules/favorites/favoriters_controller.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:comics_marvel/aplication/rest_client/rest_client.dart';
@@ -8,9 +9,12 @@ import 'package:comics_marvel/repository/characters_repository/characters_reposi
 
 RestClient rClient = RestClient();
 
-class CharactersPageController extends GetxController with MessagesMixin {
+class CharactersPageController extends GetxController
+    with MessagesMixin, StateMixin {
   CharactersRepository charactersRepository =
       CharactersRepository(restClient: rClient);
+
+  FavoritersController favoritersController = Get.find();
 
   final message = Rxn<MessageModel>();
   final characters = <Character>[].obs;
@@ -37,7 +41,19 @@ class CharactersPageController extends GetxController with MessagesMixin {
   @override
   Future<void> onReady() async {
     super.onReady();
-    getPersonagem();
+    initialCall();
+  }
+
+  Future<void> initialCall() {
+    return getPersonagem().then((value) {
+      if (value!.isNotEmpty) {
+        change(value, status: RxStatus.success());
+      } else {
+        change(null, status: RxStatus.empty());
+      }
+    }, onError: (error) {
+      change(null, status: RxStatus.error('Ocorreu um erro na requisição.'));
+    });
   }
 
   void moreData() async {
@@ -47,7 +63,7 @@ class CharactersPageController extends GetxController with MessagesMixin {
     canCall = false;
   }
 
-  Future<void> getPersonagem() async {
+  Future<List<Character?>?> getPersonagem() async {
     late RequestCharacter? character;
     try {
       character = await charactersRepository.getPersonagem(offset);
@@ -57,10 +73,12 @@ class CharactersPageController extends GetxController with MessagesMixin {
       if (character?.characters != null) {
         characters.addAll(character!.characters!);
       }
+      return characters;
     } catch (e, s) {
       debugPrint('$e $s');
       message(MessageModel.error(
           title: 'Erro', message: 'Erro ao buscar characters'));
     }
+    return null;
   }
 }
