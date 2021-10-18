@@ -13,12 +13,12 @@ class CharacterDetailGroupComics extends GetView<CharacterDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      return Expanded(
+    return controller.obx(
+      (value) => Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
+            SizedBox(
               height: Get.height * 0.70,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -33,7 +33,6 @@ class CharacterDetailGroupComics extends GetView<CharacterDetailController> {
                     }
                   }
                   ComicsCharacterId _comicId = controller.comicsId[index];
-
                   return Column(
                     children: [
                       CharacterDetailCardComics(
@@ -44,7 +43,7 @@ class CharacterDetailGroupComics extends GetView<CharacterDetailController> {
                 },
               ),
             ),
-            Container(
+            SizedBox(
               height: Get.height * 0.26,
               child: SingleChildScrollView(
                 child: Row(
@@ -62,22 +61,12 @@ class CharacterDetailGroupComics extends GetView<CharacterDetailController> {
                           SizedBox(
                             height: Get.height * 0.01,
                           ),
-                          Visibility(
-                            visible: true,
-                            child: Text(
-                              controller.character.description,
-                              style: const TextStyle(
-                                  fontSize: 15, fontWeight: FontWeight.w500),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 10,
-                            ),
-                            replacement: const Text(
-                              'Dscription of charatcer in production',
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w600),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 8,
-                            ),
+                          Text(
+                            controller.character.description,
+                            style: const TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w500),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 10,
                           )
                         ],
                       ),
@@ -88,7 +77,17 @@ class CharacterDetailGroupComics extends GetView<CharacterDetailController> {
             ),
           ],
         ),
-      );
-    });
+      ),
+      onError: (error) => Expanded(
+        child: Center(
+          child: Text('$error'),
+        ),
+      ),
+      onEmpty: const Expanded(
+        child: Center(
+          child: Text('Sem informações para mostrar'),
+        ),
+      ),
+    );
   }
 }

@@ -11,30 +11,13 @@ class CharacterDetailGroup extends GetView<CharacterDetailController> {
 
   @override
   Widget build(BuildContext context) {
-    //return Obx(() {
-    // return Flexible(
-    //   child: ListView.builder(
-    //     scrollDirection: Axis.horizontal,
-    //     itemCount: controller.comicsId.length,
-    //     itemBuilder: (_, index) {
-    //       if (controller.comicsId.isNotEmpty) {
-    //         if (index > (controller.comicsId.length * 0.7).toInt() &&
-    //             controller.canCall == false) {
-    //           controller.moreData();
-    //         }
-    //       }
-    //       ComicsCharacterId _comicId = controller.comicsId[index];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Text(
-        //     "${controller.character.thumbnail.extension}.${controller.character.thumbnail.path}"),
         CharacterDetailCard(
           character: controller.character,
         ),
       ],
     );
-    //});
   }
 }

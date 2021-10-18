@@ -9,7 +9,8 @@ import 'package:get/get.dart';
 
 RestClient rClient = RestClient();
 
-class CharacterDetailController extends GetxController with MessagesMixin {
+class CharacterDetailController extends GetxController
+    with MessagesMixin, StateMixin {
   ComicsIdRepository comicsIdRespository =
       ComicsIdRepository(restClient: rClient);
   late Character character;
@@ -39,7 +40,19 @@ class CharacterDetailController extends GetxController with MessagesMixin {
   @override
   Future<void> onReady() async {
     super.onReady();
-    getComicsId();
+    initialCall();
+  }
+
+  Future<RequestComicsCharacterId?> initialCall() {
+    return getComicsId().then((value) {
+      if (value == null) {
+        change(value, status: RxStatus.success());
+      } else {
+        change(null, status: RxStatus.empty());
+      }
+    }, onError: (error) {
+      change(null, status: RxStatus.error('Ocorreu um erro na requisição.'));
+    });
   }
 
   void moreData() async {
@@ -49,15 +62,18 @@ class CharacterDetailController extends GetxController with MessagesMixin {
     canCall = false;
   }
 
-  Future<void> getComicsId() async {
+  Future<RequestComicsCharacterId?> getComicsId() async {
     late RequestComicsCharacterId? comicId;
     try {
+      change(null, status: RxStatus.loading());
       comicId = await comicsIdRespository.getComicsId(character.id, offset);
 
       if (comicId?.comics != null) {
         comicsId.addAll(comicId!.comics!);
+        change(comicsId, status: RxStatus.success());
       }
     } catch (e, s) {
+      change(null, status: RxStatus.error(e.toString()));
       debugPrint('$e $s');
       message(
           MessageModel.error(title: 'Erro', message: 'Erro ao buscar comics'));
