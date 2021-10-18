@@ -7,7 +7,9 @@ import 'package:transparent_image/transparent_image.dart';
 
 class CharacterCard extends GetView<CharactersPageController> {
   final Character character;
+  final Color color;
   const CharacterCard({
+    this.color = Colors.grey,
     Key? key,
     required this.character,
   }) : super(key: key);
@@ -34,11 +36,6 @@ class CharacterCard extends GetView<CharactersPageController> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(20),
                       clipBehavior: Clip.antiAlias,
-                      // child: Container(
-                      //   width: 350,
-                      //   height: 380,
-                      //   color: Colors.blue,
-                      // )
                       child: FadeInImage.memoryNetwork(
                         placeholder: kTransparentImage,
                         image:
@@ -63,9 +60,13 @@ class CharacterCard extends GetView<CharactersPageController> {
                   height: 50,
                   child: IconButton(
                     iconSize: 23,
-                    icon: const Icon(Icons.favorite),
+                    icon: Icon(
+                      Icons.favorite,
+                      color: color,
+                    ),
                     onPressed: () {
-                      debugPrint('favoritos');
+                      controller.favoritersController.favoriteCharacter
+                          .add(character);
                     },
                   ),
                 ),
