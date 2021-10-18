@@ -1,5 +1,6 @@
 import 'package:comics_marvel/modules/characters/characters_bindings.dart';
 import 'package:comics_marvel/modules/characters/characters_page.dart';
+import 'package:comics_marvel/modules/favorites/favorites_bindings.dart';
 import 'package:comics_marvel/modules/favorites/favorites_page.dart';
 import 'package:comics_marvel/modules/home/home_page_controller.dart';
 import 'package:flutter/material.dart';
@@ -11,10 +12,6 @@ class HomePage extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => controller.controllerCharacter.getPersonagem(),
-        child: const Icon(Icons.replay_outlined),
-      ),
       bottomNavigationBar: Obx(() {
         return BottomNavigationBar(
           selectedItemColor: const Color(0xffEA4335),
@@ -41,9 +38,9 @@ class HomePage extends GetView<HomePageController> {
           }
           if (settings.name == '/favorites') {
             return GetPageRoute(
-              settings: settings,
-              page: () => const FavoritesPage(),
-            );
+                settings: settings,
+                page: () => const FavoritesPage(),
+                binding: FavoritesBindings());
           }
           return null;
         },

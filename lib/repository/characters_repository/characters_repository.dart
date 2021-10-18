@@ -2,7 +2,6 @@ import 'package:comics_marvel/aplication/helper.dart';
 import 'package:comics_marvel/aplication/rest_client/rest_client.dart';
 import 'package:comics_marvel/models/character.dart';
 import 'package:comics_marvel/models/request_character.dart';
-import 'package:flutter/foundation.dart';
 
 class CharactersRepository {
   final RestClient _restClient;
@@ -14,7 +13,7 @@ class CharactersRepository {
   Future<RequestCharacter?> getPersonagem(int offset) async {
     int limit = 100;
     String urlFinal = gerarUrl("characters", offset: offset, limit: limit);
-    debugPrint('$urlFinal---------------controle--$controlle');
+
     controlle++;
 
     final result =
@@ -34,11 +33,7 @@ class CharactersRepository {
       //AUMENTADO TEMPO LIMITE DE TIME-OUT DEVIDO A PROBLEMAS NA API
     }).timeout(const Duration(seconds: 60));
 
-    //if (result.body['code'] == 'RequestThrottled') {
     if (result.hasError) {
-      debugPrint('Erro ao buscar characters [${result.statusText}]');
-      //"code": "RequestThrottled",
-      //"message": "You have exceeded your rate limit.  Please try again later."
       throw Exception('Erro ao buscar characters');
     }
     // ignore: unnecessary_null_in_if_null_operators
