@@ -28,7 +28,7 @@ class ComicsIdRepository {
                 .toList());
       }
       return null;
-    });
+    }).timeout(const Duration(seconds: 60));
     if (result.hasError) {
       throw Exception('Erro ao buscar comics com id ');
     }
